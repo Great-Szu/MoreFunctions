@@ -52,6 +52,7 @@ def score_hand(hand):
 
 def deal_dealer():
     dealer_score = score_hand(dealer_hand)
+
     while 0 < dealer_score < 17:
         dealer_hand.append(deal_card(dealer_card_frame))
         dealer_score = score_hand(dealer_hand)
@@ -92,6 +93,24 @@ def deal_player():
     #     result_text.set("Dealer wins!")
     # print(locals())
 
+
+def new_game():
+
+    for widget in dealer_card_frame.winfo_children():
+        widget.destroy()
+    for widget in player_card_frame.winfo_children():
+        widget.destroy()
+
+    dealer_hand.clear()
+    player_hand.clear()
+
+    deal_player()
+    dealer_hand.append(deal_card(dealer_card_frame))
+    dealer_score_label.set(score_hand(dealer_hand))
+    deal_player()
+
+
+
 mainWindow = tkinter.Tk()
 
 # Set up the screen and frames for the dealer and player
@@ -131,6 +150,9 @@ dealer_button.grid(row=0, column=0)
 player_button = tkinter.Button(button_Frame, text="Player", command=deal_player)
 player_button.grid(row=0, column=1)
 
+reset_button = tkinter.Button(button_Frame, text="New Game", command=new_game)
+reset_button.grid(row=0, column=2)
+
 # load cards
 cards = []
 load_images(cards)
@@ -144,8 +166,6 @@ random.shuffle(deck)
 dealer_hand = []
 player_hand = []
 
-deal_player()
-dealer_hand.append(deal_card(dealer_card_frame))
-deal_player()
+
 
 mainWindow.mainloop()
